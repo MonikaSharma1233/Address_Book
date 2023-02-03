@@ -14,11 +14,23 @@ namespace Address_Book_System
 
         Address_Book_Model abm = new Address_Book_Model();
         List<Address_Book_Model> contact = new List<Address_Book_Model>();
+        Dictionary<string, List<Address_Book_Model>> contactMapping = new Dictionary<string, List<Address_Book_Model>>();
+
         public void AddContacts()
         {
-            Address_Book_Model abm = new Address_Book_Model();
+             abm = new Address_Book_Model();
             Console.WriteLine("Enter Your First name: ");
+             tryingWithDifferentName://goto label if name is not match ask again.
             abm.f_name = Console.ReadLine();
+            foreach (KeyValuePair<string, List<Address_Book_Model>> kvp in contactMapping)//UC6-Won't allow duplicate first name to be stored in AddressBook .
+            {
+                if (kvp.Key.Equals(abm.f_name))
+                {
+                    Console.WriteLine("The Name is already Exist,Try with some other name.");
+                    Console.WriteLine("Please try again :");
+                    goto tryingWithDifferentName;
+                }
+            }
             Console.WriteLine("Enter Your Last name");
             abm.l_name = Console.ReadLine();
             Console.WriteLine("Address: ");
@@ -33,6 +45,7 @@ namespace Address_Book_System
             Console.WriteLine("Enter Youe Email Id ");
             abm.email = Console.ReadLine();
             contact.Add(abm);
+            contactMapping.Add(abm.f_name, contact);
         }
         public void ShowContact()
         {
@@ -66,7 +79,7 @@ namespace Address_Book_System
             string user_lname = Console.ReadLine();
             foreach (var abm in contact)
             {
-                if (user_fname.Equals(abm.f_name) && user_lname.Equals(abm.l_name))
+                if (user_fname.Equals(abm.f_name) && user_lname.Equals(abm.l_name))//Edit will done if contact is present prev.
                 {
                 EditingAgain:
                     Console.WriteLine("Please select option: "

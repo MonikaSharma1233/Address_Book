@@ -36,15 +36,26 @@ namespace Address_Book_System
         }
         public void ShowContact()
         {
-            foreach (var abm in contact)
+            if (contact.Count == 0)
             {
-                Console.WriteLine("Name: \t" + abm.f_name + " " + abm.l_name);
-
-                Console.WriteLine("Address: " + abm.city + ", " + abm.state + ", " + abm.zip);
-
-                Console.WriteLine("Phone No: " + abm.phone);
-                Console.WriteLine("Email: " + abm.email);
+                Console.WriteLine("Your Address book is empty. Press any key to continue");
+                Console.ReadKey();
+                return;
             }
+            else
+            {
+                foreach (var abm in contact)
+                {
+                    Console.WriteLine("Name: \t" + abm.f_name + " " + abm.l_name);
+
+                    Console.WriteLine("Address: " + abm.city + ", " + abm.state + ", " + abm.zip);
+
+                    Console.WriteLine("Phone No: " + abm.phone);
+                    Console.WriteLine("Email: " + abm.email);
+                }
+
+            }
+            
         }
         public void UpdateContact()
         {

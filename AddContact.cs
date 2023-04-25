@@ -1,7 +1,8 @@
-﻿using System;
+﻿ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Numerics;
 using System.Text;
@@ -19,8 +20,8 @@ namespace Address_Book_System
         public void AddContacts()
         {
              abm = new Address_Book_Model();
-            Console.WriteLine("Enter Your First name: ");
              tryingWithDifferentName://goto label if name is not match ask again.
+            Console.WriteLine("Enter Your First name: ");
             abm.f_name = Console.ReadLine();
             foreach (KeyValuePair<string, List<Address_Book_Model>> kvp in contactMapping)//UC6-Won't allow duplicate first name to be stored in AddressBook .
             {
@@ -31,8 +32,19 @@ namespace Address_Book_System
                     goto tryingWithDifferentName;
                 }
             }
+            tryingWithDifferentName1:
             Console.WriteLine("Enter Your Last name");
             abm.l_name = Console.ReadLine();
+            foreach (KeyValuePair<string, List<Address_Book_Model>> kvp in contactMapping)
+                //UC7-Won't allow duplicate Last name to be stored in AddressBook .
+            {
+                if (kvp.Key.Equals(abm.l_name))
+                {
+                    Console.WriteLine("The Name is already Exist,Try with some other name.");
+                    Console.WriteLine("Please try again :");
+                    goto tryingWithDifferentName1;
+                }
+            }
             Console.WriteLine("Address: ");
             Console.WriteLine("Enter City: ");
             abm.city = Console.ReadLine();
@@ -40,12 +52,36 @@ namespace Address_Book_System
             abm.state = Console.ReadLine();
             Console.WriteLine("Enter your zip Number: ");
             abm.zip = Convert.ToDouble(Console.ReadLine());
+            tryingWithDifferentphone:
             Console.WriteLine("Enter your phone Number: ");
             abm.phone = Convert.ToDouble(Console.ReadLine());
+            foreach (KeyValuePair<string, List<Address_Book_Model>> kvp in contactMapping)
+                //UC7-Won't allow duplicate phone to be stored in AddressBook .
+            {
+                if (kvp.Key.Equals(abm.phone))
+                {
+                    Console.WriteLine("The Phone is already Exist,Try with some other Phone.");
+                    Console.WriteLine("Please try again :");
+                    goto tryingWithDifferentphone;
+                }
+            }
+            tryingWithDifferentEmail:
             Console.WriteLine("Enter Youe Email Id ");
             abm.email = Console.ReadLine();
+            foreach (KeyValuePair<string, List<Address_Book_Model>> kvp in contactMapping)
+                //UC7-Won't allow duplicate email to be stored in AddressBook .
+            {
+                if (kvp.Key.Equals(abm.email))
+                {
+                    Console.WriteLine("The Email ID is already Exist,Try with some other Email.");
+                    Console.WriteLine("Please try again :");
+                    goto tryingWithDifferentEmail;
+                }
+            }
             contact.Add(abm);
             contactMapping.Add(abm.f_name, contact);
+            
+            
         }
         public void ShowContact()
         {
@@ -187,6 +223,24 @@ namespace Address_Book_System
             }
 
         }
+        //UC8  UC9
+        public static void SearchByCityOrState()
+        {
+           // List<Address_Book_Model> contact;
+            Console.WriteLine("Enter the City: ");
+            string userinput = Console.ReadLine();
+            var lambdaforcity = contact.Any(City => City.city == userinput);
+            Console.WriteLine(lambdaforcity);
+            
+
+        }
+        //UC 10
+        public void countdata()
+        {
+            var result = contact.Count();
+            Console.WriteLine($"{result.ToString()}");
+        }
+
     }
 }
 
